@@ -11,7 +11,7 @@ from theano import tensor as T
 ### 10 output                                                                                                                                                                       
 ###############data set building ####################                                                                                                                              
 #############                                                                                                                                                                      
-print "hello! I am learning to classify patients by gender using gene expression!"
+print "hello! I am learning to classify digits!"
 
 
 #### making a numpy array with theano config, used by the initial_weights function                                                                                                 
