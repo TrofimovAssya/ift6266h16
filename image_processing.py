@@ -49,15 +49,15 @@ def process(path,size):
 		if not(filename[-4:] == ".jpg"):
 			continue
 
-		image = io.imread("".join([path,str(filename)]))
+		image = io.imread("".join([path,str(filename)]), as_grey = True)
 		min_dim = min(numpy.shape(image)[:2])
 		if not(min_dim % 2 == 0):
 			min_dim -= 1
 
 		image = crop(image,min_dim)
 		image = resize(image,size)
-#		print (str(filename[:-4]))
-		io.imsave("".join([path,str(filename[:-4]),str("_processed.jpg")]) , image)
+		print (str(filename[:-4]))
+		io.imsave("".join([out_path,str(filename[:-4]),str("_processed.jpg")]) , image)
 
-process(path,256)
+process(path,100)
 

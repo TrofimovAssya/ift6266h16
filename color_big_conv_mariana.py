@@ -42,12 +42,15 @@ if __name__ == "__main__" :
 	while epoch<1000 :
 		trainScores = []
 		for batchindex in xrange(1,126,1):
-			tdata = load_data_batch(("_").join([batchindex,"dataset.p"]))
-			for i in xrange(0, len(tdata), miniBatchSize) :
-				inputs = tdata[0][i : i +miniBatchSize]
-				targets = tdata[1][i : i +miniBatchSize]
-				res = model.train(inputs, targets)
-				trainScores.append(res[0])
+			print "loading batch", batchindex
+			tdata = load_data_batch(("_").join([str(batchindex),"dataset.p"]))
+#			for i in xrange(0, len(tdata), miniBatchSize) :
+			inputs = tdata[0]
+			targets = tdata[1]
+			res = model.train(inputs, targets)
+			trainScores.append(res[0])
+#				if i%10 == 0:
+			print res[0]
 		
 		trainScore = numpy.mean(trainScores)
 		
