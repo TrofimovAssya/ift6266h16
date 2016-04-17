@@ -41,28 +41,19 @@ def classes(targets):
         x = [numpy.abs(numpy.argmax(i)-1) for i in targets[0]]
         return x
 
-if __name__ == "__main__" :
-	
-	ls = MS.MomentumGradientDescent(lr = 1e-1, momentum = 0.95)
-	cost = MC.NegativeLogLikelihood()
-
-	miniBatchSize = 100
+def train(ls, cost, miniBatchSize, ):
 	
 	model = ConvNet(ls, cost)
-
-	#printing the model to view the architecture
-#	model.saveHTML('cnn_catdog')
 	
 	tscore = []
 	vscore = []
-	tdata = load_data("../flip_grey_train_dataset.p")
-  	vdata = load_data("../flip_grey_valid_dataset.p")
+	tdata = load_data(trainfile)
+  	vdata = load_data(validfile)
     vdata = (center(vdata[0]),vdata[1])        
-    test = load_data("../test_set.p")
+    test = load_data(testfile)
     test = center(test)
 
 	epoch = 0
-	miniBatchSize = 100
 	permutate = [i for i in xrange(len(tdata[0]))]
     permut2 = [i for i in xrange(len(vdata[0]))]
 
@@ -90,13 +81,17 @@ if __name__ == "__main__" :
 
 		vscore.append(validScore.item())
 		if epoch % 10 == 0:
-			numpy.save('HD1Ctscores_grey',tscore)
-			numpy.save('HD1Cvscores_grey',vscore)
-			numpy.save('HD1Cerrors_grey',erate)
+			numpy.save("_".join([str(runprefix),"test_scores"]),tscore)
+			numpy.save("_".join([str(runprefix),"test_scores"]),vscore)
                         ccc = model.propagate(test)
                         ccc = classes(ccc)
-                        numpy.save("_".join([str(epoch),"HD1Ctest_scores"]),ccc)
+                        numpy.save("_".join([str(epoch),str(runprefix),"test_scores"]),ccc)
 
 		epoch += 1
 
+
+train(ls = MS.MomentumGradientDescent(lr = 1e-1, momentum = 0.95), cost = MC.NegativeLogLikelihood(), 
+	miniBatchSize = 100, trainfile = "../flip_grey_train_dataset.p",
+	validfile = "../flip_grey_valid_dataset.p", testfile = "../test_set.p",
+	runprefix = "HD2")
 
