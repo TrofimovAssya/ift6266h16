@@ -41,10 +41,9 @@ def classes(targets):
         x = [numpy.abs(numpy.argmax(i)-1) for i in targets[0]]
         return x
 
-def train(ls, cost, miniBatchSize, ):
+def train(ls, cost, miniBatchSize, trainfile, validfile, testfile, runprefix):
 	
 	model = ConvNet(ls, cost)
-	
 	tscore = []
 	vscore = []
 	tdata = load_data(trainfile)
@@ -62,18 +61,19 @@ def train(ls, cost, miniBatchSize, ):
 		trainScores = []
 		numpy.random.shuffle(permutate)
 		tdata = (tdata[0][permutate],tdata[1][permutate])
-
+		call = []
 		for i in xrange(0, len(tdata[0]), miniBatchSize) :
 			inputs = center(tdata[0][i : i +miniBatchSize])
 			targets = tdata[1][i : i +miniBatchSize]
 			res = model.train(inputs, targets )
 			trainScores.append(res[0])
+
 			#making sure the python buffer is flushed
 			sys.stdout.flush()
 		trainScore = numpy.mean(trainScores)
 
 		tscore.append(trainScore)
-                vdata = (vdata[0][permut2], vdata[1][permut2])
+        vdata = (vdata[0][permut2], vdata[1][permut2])
 		validScore = model.test(vdata[0],vdata[1])[0]
 		print "epoch", epoch
 		print "\ttrain score:", trainScore
