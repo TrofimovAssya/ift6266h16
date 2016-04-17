@@ -11,6 +11,7 @@ from PIL import Image
 from numpy import random
 
 
+
 #generating custom validation set as specified by teacher
 indices = numpy.arange(25000)
 numpy.random.RandomState(123522).shuffle(indices)
@@ -37,6 +38,7 @@ def process_train(filelist):
 
 		img = Image.open(open("/".join([".",filename])))
 		img = numpy.array(img, dtype='float32') / 256.
+		## swap axes is a hack for the picky Mariana Convnet input.
 #		img = numpy.swapaxes(img,0,2)
 		if (names[0] == 'cat'):
 			animal = 1
@@ -44,6 +46,10 @@ def process_train(filelist):
 			animal = 0
 
 		data.append(img)
+		targets.append(animal)
+
+		## the data augmentation means you add twice more images with horizontal flips!
+		data.append(numpy.fliplr(img))
 		targets.append(animal)
 
 	return data,targets
@@ -89,20 +95,20 @@ def process_test(filelist):
 
 # processing the training sets 
 
-# data,targets = process_train(filelist)
-# data = numpy.array(data)
-# targets = numpy.array(targets)
-# train_set = (data,targets)
-# pickle.dump(train_set,open("train_dataset.p",'wb'))
-
-# #making a validation set
-# data,targets = process_valid(valid,filelist)
-# data = numpy.array(data)
-# targets = numpy.array(targets)
-# valid_set = (data,targets)
-# pickle.dump(valid_set,open("valid_dataset.p",'wb'))
-
-#making the test set
-data = process_test(filelist)
+data,targets = process_train(filelist)
 data = numpy.array(data)
-pickle.dump(data,open("test_set.p",'wb'))
+targets = numpy.array(targets)
+train_set = (data,targets)
+pickle.dump(train_set,open("train_dataset.p",'wb'))
+
+#making a validation set
+data,targets = process_valid(valid,filelist)
+data = numpy.array(data)
+targets = numpy.array(targets)
+valid_set = (data,targets)
+pickle.dump(valid_set,open("valid_dataset.p",'wb'))
+
+# #making the test set
+# data = process_test(filelist)
+# data = numpy.array(data)
+# pickle.dump(data,open("test_set.p",'wb'))

@@ -53,7 +53,8 @@ if __name__ == "__main__" :
 	vscore = []
 	erate = []
 	tdata = load_data("flip_grey_train_dataset.p")
-        vdata = load_data("flip_grey_valid_dataset.p")
+    vdata = load_data("flip_grey_valid_dataset.p")
+    test = pickle.load(open("test_set.p","rb"))
 	epoch = 0
 	miniBatchSize = 100
 	f = 0
@@ -93,13 +94,14 @@ if __name__ == "__main__" :
 
 		vscore.append(validScore.item())
 		if epoch % 10 == 0:
-			numpy.save('FR1004tscores_grey',tscore)
-			numpy.save('FR1004vscores_grey',vscore)
+			numpy.save('Dtscores_grey',tscore)
+			numpy.save('Dvscores_grey',vscore)
                         erate.append(checkout(classes[0], vdata[1]))
-			numpy.save('FR1004errors_grey',erate)
-                        pickle.dump(model,open("FR1004grey_model.p","wb"))
+			numpy.save('Derrors_grey',erate)
                         if epoch % 100 == 0: 
-                                pickle.dump(model,open("_".join([str(epoch),"FR1004grey_model.p"]),"wb"))
+                                model.save("_".join([str(epoch),"Dgrey_model.p"]))
+                                numpy.savetxt("_".join[str(epoch),"Dtest_scores"],model.propagate2(test))
+
 		epoch += 1
 #		print clock()-t0
 

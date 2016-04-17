@@ -13,7 +13,7 @@ Script for image processing, according to Howard, A (http://arxiv.org/pdf/1312.5
 (https://www.nvidia.cn/content/tesla/pdf/machine-learning/imagenet-classification-with-deep-convolutional-nn.pdf)
 Operations done:
 1 - images are cropped to biggest squares in the middle
-2 - images are resized to fit 256 x 256 pixels 
+2 - images are resized to fit greyscaled 32 x 32 pixels 
 
 Input images are taken from the path specified by the user at launch
 Processed images are stored in the path specified by the user at launch
@@ -59,5 +59,5 @@ def process(path,size):
 		print (str(filename[:-4]))
 		io.imsave("".join([out_path,str(filename[:-4]),str("_processed.jpg")]) , image)
 
-process(path,100)
+process(path,32)
 
