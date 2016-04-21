@@ -95,18 +95,18 @@ def process_test(filelist):
 
 # processing the training sets 
 
-data,targets = process_train(filelist)
-data = numpy.array(data)
-targets = numpy.array(targets)
-train_set = (data,targets)
-pickle.dump(train_set,open("train_dataset.p",'wb'))
+# data,targets = process_train(filelist)
+# data = numpy.array(data)
+# targets = numpy.array(targets)
+# train_set = (data,targets)
+# pickle.dump(train_set,open("train_dataset.p",'wb'))
 
-#making a validation set
-data,targets = process_valid(valid,filelist)
-data = numpy.array(data)
-targets = numpy.array(targets)
-valid_set = (data,targets)
-pickle.dump(valid_set,open("valid_dataset.p",'wb'))
+# #making a validation set
+# data,targets = process_valid(valid,filelist)
+# data = numpy.array(data)
+# targets = numpy.array(targets)
+# valid_set = (data,targets)
+# pickle.dump(valid_set,open("valid_dataset.p",'wb'))
 
 # #making the test set
 # data = process_test(filelist)

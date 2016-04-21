@@ -59,5 +59,5 @@ def process(path,size):
 		print (str(filename[:-4]))
 		io.imsave("".join([out_path,str(filename[:-4]),str("_processed.jpg")]) , image)
 
-process(path,32)
+process(path,100)
 

@@ -66,13 +66,16 @@ c2 = MCONV.Convolution2D(
 fa = MCONV.Flatten(name="flata")
 fb = MCONV.Flatten(name="flatb")
 f = MCONV.Flatten(name = "flat")
+
 h = ML.Hidden(2048, activation = MA.Max_norm(), decorators = [MD.BinomialDropout(0.75)], regularizations = [], name = "hid" )
+passa = ML.Hidden(1500, activation = MA.Pass(), decorators = [MD.BinomialDropout(0.5)], regularizations = [], name = "pass1" )
+passb = ML.Hidden(1500, activation = MA.Pass(), decorators = [MD.BinomialDropout(0.5)], regularizations = [], name = "pass2" )
 h2 = ML.Hidden(2048, activation = MA.Max_norm(), decorators = [MD.BinomialDropout(0.75)], regularizations = [], name = "hid2" )
 o = ML.SoftmaxClassifier(2, decorators = [], learningScenario = ls, costObject = cost, name = "out", regularizations = [] )
 
 model = i > c1 > c3 > c2 > f > h > h2 > o
-c1 > fa > h > h2 > o
-c2 > fb > h > h2 > o
+c1 > fa > passa > h > h2 > o
+c2 > fb > passb >h > h2 > o
 
 tscore = []
 vscore = []
