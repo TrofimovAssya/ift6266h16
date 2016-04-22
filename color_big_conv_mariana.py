@@ -10,18 +10,11 @@ import Mariana.scenari as MS
 import Mariana.decorators as MD
 
 from convnet import ConvWithChanneler
-
-####
-# using previous version of the Cat-Dog identification convnet
-# solution 1 for dealing with a large dataset:
-# load the pictures by batches of pre-processed pickle files
-# shuffle after each load and split validation data into an array.
+### the convnet architecture for colored input data (3 channels, RGB)
 
 def load_data_batch(picklefile):
 	tbl = pickle.load(open(picklefile,"rb"))
 	return tbl
-
-
 
 if __name__ == "__main__" :
 	
@@ -44,12 +37,10 @@ if __name__ == "__main__" :
 		for batchindex in xrange(1,126,1):
 			print "loading batch", batchindex
 			tdata = load_data_batch(("_").join([str(batchindex),"dataset.p"]))
-#			for i in xrange(0, len(tdata), miniBatchSize) :
 			inputs = tdata[0]
 			targets = tdata[1]
 			res = model.train(inputs, targets)
 			trainScores.append(res[0])
-#				if i%10 == 0:
 			print res[0]
 		
 		trainScore = numpy.mean(trainScores)
